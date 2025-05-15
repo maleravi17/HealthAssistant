@@ -201,7 +201,7 @@ async def chat_with_medical_assistant(session_id: str = Form(...), prompt: str =
 
         # Check for initial welcome message
         session_file = os.path.join(SESSION_FOLDER, f"{session_id}.json")
-        if BOS not in session_data and not prompt.strip():
+        if not os.path.exists(session_file) and not prompt.strip():
             assistant_response = "Hello! I'm Smart Doctor, your medical chat assistant. Ask me about symptoms, conditions, or general health questions, and I'll provide helpful, easy-to-understand information."
             return ChatResponse(response=assistant_response)
 
@@ -283,5 +283,5 @@ async def chat_with_medical_assistant(session_id: str = Form(...), prompt: str =
 
 if __name__ == "__main__":
     import uvicorn
-    port = int(os.getenv("PORT", 8000))
+    port = int(os.getenv("PORT", 8001))
     uvicorn.run(app, host="0.0.0.0", port=port)
